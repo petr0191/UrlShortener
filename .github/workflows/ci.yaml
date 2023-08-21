@@ -14,4 +14,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Build
-        run: javac -d WEB-INF/classes src/**/*.java
+        run: |
+         javac -d WEB-INF/classes src/main/java/com/algonquin/urlshortener/services/*.java
+         javac -d WEB-INF/classes src/main/java/com/algonquin/urlshortener/servlets/*.java
