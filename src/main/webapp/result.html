@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Shortener</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+	    .container {
+	        background-color: #fff;
+	        padding: 20px;
+	        border-radius: 5px;
+	        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	        text-align: center;
+	        min-width: 600px; 
+	        max-width: 1000px;
+	        margin: 0 auto; 
+	    }
+        h1 {
+            margin-top: 0;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="url"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            display: block;
+            width: 85px;
+            padding: 8px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin: 10px auto 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        p {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .copied-message {
+	        background-color: #5cb85c;
+	        color: #fff;
+	        padding: 10px;
+	        border-radius: 5px;
+	        position: fixed;
+	        bottom: 20px;
+	        left: 50%;
+	        transform: translateX(-50%);
+	        z-index: 9999;
+	    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <p>Original URL: ${originalUrl}</p>
+        <p>Shortened URL: ${shortenedUrl}</p>
+        <button id="copy-button">Copy to Clipboard</button>
+        <script>
+            document.getElementById('copy-button').addEventListener('click', function() {
+                var textArea = document.createElement('textarea');
+                textArea.value = '${shortenedUrl}';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                var copiedMessage = document.createElement('p');
+                copiedMessage.classList.add('copied-message');
+                copiedMessage.textContent = 'URL copied to clipboard!';
+                document.body.appendChild(copiedMessage);
+                setTimeout(function() {
+		            document.body.removeChild(copiedMessage);
+		        }, 3000);
+            });
+        </script>
+    </div>
+</body>
+</html>
