@@ -6,14 +6,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.algonquin.urlshortener.beans.ShortenedUrl;
+import com.algonquin.urlshortener.dao.ApplicationDao;
+
 public class ShortenService {
 	 private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	    private static final int SHORT_URL_LENGTH = 6;
 
-	    private static Set<String> usedUrls = new HashSet<>();
-	    private static Map<String, String> urlMap = new HashMap<>();
-
 	    public static String generateShortUrl(String originalUrl) {
+	    	ApplicationDao db = new ApplicationDao();
 	        SecureRandom random = new SecureRandom();
 	        String shortUrl;
 
@@ -25,14 +26,22 @@ public class ShortenService {
 	                sb.append(randomChar);
 	            }
 	            shortUrl = sb.toString();
-	        } while (usedUrls.contains(shortUrl)); 
-
-	        usedUrls.add(shortUrl);
-	        urlMap.put(shortUrl, originalUrl);
+	        } while (db.getShortenedUrlBySlug(shortUrl) != null); 
+	        ShortenedUrl s = new ShortenedUrl();
+	        s.setSlug(shortUrl);
+	        s.setLongUrl(originalUrl);
+	        s.setUserId(-1);
+	        db.insertShortenedUrl(s);
 	        return shortUrl;
 	    }
 
 		public static String getOriginalUrl(String shortSlug) {
-			return urlMap.getOrDefault(shortSlug, null);
+			ApplicationDao db = new ApplicationDao();
+			ShortenedUrl s = db.getShortenedUrlBySlug(shortSlug);
+			if (s!=null) {
+				db.registerClick(s.getId());
+				return s.getLongUrl();
+			}
+			return null;
 		}
 }
