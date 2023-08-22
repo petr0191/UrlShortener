@@ -159,6 +159,7 @@ public class ApplicationDao {
             String useDatabaseQuery = "USE " + DB_NAME;
             statement.executeUpdate(useDatabaseQuery);
 
+            // check if the email is in the database
             String query = "SELECT * FROM users WHERE email = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, email);

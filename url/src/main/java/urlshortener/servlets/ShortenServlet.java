@@ -69,7 +69,7 @@ public class ShortenServlet extends HttpServlet {
 
             StringBuilder htmlContent = new StringBuilder();
             String line;
-            // go through the file line by line and replace the placeholders
+            // go through the result.html line by line and replace the originalUrl and shortenedurl
             while ((line = reader.readLine()) != null) {
                 htmlContent.append(line);
             }
