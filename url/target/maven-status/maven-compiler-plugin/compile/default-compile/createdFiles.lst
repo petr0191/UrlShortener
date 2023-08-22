@@ -1,0 +1,6 @@
+urlshortener\servlets\Redirect.class
+urlshortener\beans\ShortenedUrl.class
+urlshortener\beans\User.class
+urlshortener\servlets\ShortenServlet.class
+urlshortener\dao\ApplicationDao.class
+urlshortener\services\ShortenService.class
