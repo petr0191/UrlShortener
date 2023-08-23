@@ -18,7 +18,7 @@ public class ApplicationDao {
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/";
 	private static final String DB_NAME = "shorturl";
 	private static final String DB_USERNAME = "root";
-	private static final String DB_PASSWORD = "sandwich";
+	private static final String DB_PASSWORD = "password";
 	
 	static {
         try {
