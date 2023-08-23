@@ -1,10 +1,6 @@
 package com.algonquin.urlshortener.services;
 
 import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 import com.algonquin.urlshortener.beans.ShortenedUrl;
 import com.algonquin.urlshortener.dao.ApplicationDao;
@@ -13,7 +9,7 @@ public class ShortenService {
 	 private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	    private static final int SHORT_URL_LENGTH = 6;
 
-	    public static String generateShortUrl(String originalUrl) {
+	    public static String generateShortUrl(String originalUrl, int userid) {
 	    	ApplicationDao db = new ApplicationDao();
 	        SecureRandom random = new SecureRandom();
 	        String shortUrl;
@@ -30,7 +26,7 @@ public class ShortenService {
 	        ShortenedUrl s = new ShortenedUrl();
 	        s.setSlug(shortUrl);
 	        s.setLongUrl(originalUrl);
-	        s.setUserId(-1);
+	        s.setUserId(userid);
 	        db.insertShortenedUrl(s);
 	        return shortUrl;
 	    }

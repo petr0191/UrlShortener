@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.algonquin.urlshortener.beans.ShortenedUrl;
 import com.algonquin.urlshortener.beans.User;
@@ -16,7 +18,16 @@ public class ApplicationDao {
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/";
 	private static final String DB_NAME = "shorturl";
 	private static final String DB_USERNAME = "root";
-	private static final String DB_PASSWORD = "password";
+	private static final String DB_PASSWORD = "sandwich";
+	
+	static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 	public ApplicationDao() {
 
@@ -40,60 +51,80 @@ public class ApplicationDao {
 		}
 	}
 
-	public ShortenedUrl getShortenedUrlBySlug(String slug) {
-		createDbIfRequired();
-		ShortenedUrl shortenedUrl = null;
+	 public ShortenedUrl getShortenedUrlBySlug(String slug) {
+	        createDbIfRequired();
+	        ShortenedUrl shortenedUrl = null;
 
-		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
-			Statement statement = connection.createStatement();
-			String useDatabaseQuery = "USE " + DB_NAME;
-			statement.executeUpdate(useDatabaseQuery);
-			String query = "SELECT * FROM short_urls WHERE slug = ?";
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, slug);
+	        // connect to the database
+	        try {
+	            Class.forName("com.mysql.jdbc.Driver");
+	            Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+	            Statement statement = connection.createStatement();
+	            String useDatabaseQuery = "USE " + DB_NAME;
+	            statement.executeUpdate(useDatabaseQuery);
 
-			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
-				shortenedUrl = new ShortenedUrl();
-				shortenedUrl.setId(resultSet.getInt("id"));
-				shortenedUrl.setSlug(resultSet.getString("slug"));
-				shortenedUrl.setLongUrl(resultSet.getString("long_url"));
-				shortenedUrl.setUserId(resultSet.getInt("user_id"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	            // create the query and run it
+	            String query = "SELECT * FROM short_urls WHERE slug = ?";
+	            PreparedStatement preparedStatement = connection.prepareStatement(query);
+	            preparedStatement.setString(1, slug);
+	            ResultSet resultSet = preparedStatement.executeQuery();
+	            if (resultSet.next()) {
+	                // create a new ShortenedUrl object
+	                shortenedUrl = new ShortenedUrl();
+	                shortenedUrl.setId(resultSet.getInt("id"));
+	                shortenedUrl.setSlug(resultSet.getString("slug"));
+	                shortenedUrl.setLongUrl(resultSet.getString("long_url"));
+	                shortenedUrl.setUserId(resultSet.getInt("user_id"));
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 
-		return shortenedUrl;
-	}
+	        return shortenedUrl;
+	    }
 
-	public List<ShortenedUrl> getShortenedUrlsByUserId(int userId) {
-		createDbIfRequired();
-		List<ShortenedUrl> shortenedUrls = new ArrayList<>();
+	public List<Map<String, String>> getShortenedUrlsByUserId(int userId) {
+        createDbIfRequired();
+        // List<ShortenedUrl> shortenedUrls = new ArrayList<>();
 
-		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
-			Statement statement = connection.createStatement();
-			String useDatabaseQuery = "USE " + DB_NAME;
-			statement.executeUpdate(useDatabaseQuery);
-			String query = "SELECT * FROM short_urls WHERE user_id = ?";
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setInt(1, userId);
+        // create a map list to store the data
+        List<Map<String, String>> shortenedUrls = new ArrayList<>();
 
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-				ShortenedUrl shortenedUrl = new ShortenedUrl();
-				shortenedUrl.setId(resultSet.getInt("id"));
-				shortenedUrl.setSlug(resultSet.getString("slug"));
-				shortenedUrl.setLongUrl(resultSet.getString("long_url"));
-				shortenedUrl.setUserId(resultSet.getInt("user_id"));
-				shortenedUrls.add(shortenedUrl);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+            Statement statement = connection.createStatement();
+            String useDatabaseQuery = "USE " + DB_NAME;
+            statement.executeUpdate(useDatabaseQuery);
 
-		return shortenedUrls;
-	}
+            String query = "SELECT * FROM short_urls WHERE user_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                // ShortenedUrl shortenedUrl = new ShortenedUrl();
+                // shortenedUrl.setId(resultSet.getInt("id"));
+                // shortenedUrl.setSlug(resultSet.getString("slug"));
+                // shortenedUrl.setLongUrl(resultSet.getString("long_url"));
+                // shortenedUrl.setUserId(resultSet.getInt("user_id"));
+                // shortenedUrls.add(shortenedUrl);
+
+                Map<String, String> idData = new HashMap<>();
+                idData.put("id", resultSet.getString("id"));
+                idData.put("slug", resultSet.getString("slug"));
+                idData.put("long_url", resultSet.getString("long_url"));
+                idData.put("user_id", resultSet.getString("user_id"));
+
+                shortenedUrls.add(idData);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return shortenedUrls;
+    }
 
 	public void registerClick(int shortUrlId) {
 		createDbIfRequired();
@@ -172,7 +203,6 @@ public class ApplicationDao {
 				String fetchedpassword = resultSet.getString("password");
 
 				if (password.equals(fetchedpassword)) {
-					System.out.println(fetchedpassword);
 					user = new User(id, fetchedEmail, fetchedpassword);
 					}
 			}

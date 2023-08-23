@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.algonquin.urlshortener.beans.User;
 import com.algonquin.urlshortener.dao.ApplicationDao;
@@ -66,9 +67,12 @@ public class LoginServlet extends HttpServlet {
 			User signin = dao.getUserSignIn(useremail, userpassword);
 
 			if (signin != null) {
-				// TODO: link to next element and send user to it
-				
-				response.sendRedirect("/shorten");
+				// Create session to pass on user
+				HttpSession session = request.getSession();
+		        session.setAttribute("user", signin);
+
+		        // Redirect to Servlet
+		        response.sendRedirect("shorten");
 			} else {
 				// Unsuccessful login, display an error message
 			    response.setContentType("text/html");

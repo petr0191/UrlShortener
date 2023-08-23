@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Login</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f4f4f4;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+		}
+
+		.container {
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			text-align: center;
+			min-width: 600px;
+			max-width: 1000px;
+			margin: 0 auto;
+		}
+
+		h1 {
+			margin-top: 0;
+		}
+
+		label {
+			font-weight: bold;
+			display: block;
+			margin-bottom: 5px;
+		}
+
+		input {
+			width: 50%;
+			padding: 8px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+		}
+
+		button {
+			display: block;
+			width: 85px;
+			padding: 8px;
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+			margin: 10px auto 0;
+		}
+
+		button:hover {
+			background-color: #0056b3;
+		}
+
+		p {
+			margin-top: 10px;
+			font-size: 14px;
+		}
+
+		.popup {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			z-index: 999;
+		}
+
+		.popup-content {
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			position: absolute;
+			text-align: center;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h2>Login</h2>
+		<form method="post" action="signin">
+			<label for="signin"></label>
+			<input type="email" id="signinemail" name="signinemail" placeholder="Email" required>
+			<input type="password" id="signinpassword" name="signinpassword" placeholder="Password" required>
+			<button type="submit" formaction="" name="login">Login</button>
+		</form>
+		<p id="error" style="color: red;"></p>
+		<p id="Sign in"></p>
+		<p><a href="#" id="signup-link">Sign up here</a></p>
+	</div>
+	<div id="popup-container" class="popup">
+		<div class="popup-content">
+			<h2>Sign Up</h2>
+			<form method="post" action="signin">
+				<label for="signup"></label>
+				<input type="email" id="signupemail" name="signupemail" placeholder="Email" required>
+				<input type="password" id="signuppassword" name="signuppassword" placeholder="Password" required>
+				<button type="submit" formaction="" name="signup">Sign Up</button>
+			</form>
+			<button id="close-popup">Close</button>
+		</div>
+	</div>
+</body>
+
+</html>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const signupLink = document.getElementById("signup-link");
+		const popupContainer = document.getElementById("popup-container");
+		const closePopupButton = document.getElementById("close-popup");
+
+		signupLink.addEventListener("click", function (event) {
+			event.preventDefault();
+			popupContainer.style.display = "block";
+		});
+
+		closePopupButton.addEventListener("click", function () {
+			popupContainer.style.display = "none";
+		});
+	});
+</script>
