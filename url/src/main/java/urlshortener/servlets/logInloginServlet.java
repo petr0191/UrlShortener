@@ -65,7 +65,7 @@ public class logInloginServlet extends HttpServlet {
                 }
 
                 // send to the user page
-                response.sendRedirect("afterlogin.html");
+                // response.sendRedirect("afterlogin.html");
                 System.out.println("Password correct");
             } else {
                 // send error message

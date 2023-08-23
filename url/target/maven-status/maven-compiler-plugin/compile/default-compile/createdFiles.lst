@@ -3,5 +3,6 @@ urlshortener\beans\ShortenedUrl.class
 urlshortener\beans\User.class
 urlshortener\dao\ApplicationDao.class
 urlshortener\services\ShortenService.class
+urlshortener\servlets\dashBoard.class
 urlshortener\servlets\logInloginServlet.class
 urlshortener\servlets\ShortenServlet.class

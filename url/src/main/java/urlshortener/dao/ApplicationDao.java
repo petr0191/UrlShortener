@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import urlshortener.beans.ShortenedUrl;
 import urlshortener.beans.User;
@@ -76,9 +78,12 @@ public class ApplicationDao {
         return shortenedUrl;
     }
 
-    public List<ShortenedUrl> getShortenedUrlsByUserId(int userId) {
+    public List<Map<String, String>> getShortenedUrlsByUserId(int userId) {
         createDbIfRequired();
-        List<ShortenedUrl> shortenedUrls = new ArrayList<>();
+        // List<ShortenedUrl> shortenedUrls = new ArrayList<>();
+
+        // create a map list to store the data
+        List<Map<String, String>> shortenedUrls = new ArrayList<>();
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -93,13 +98,22 @@ public class ApplicationDao {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                ShortenedUrl shortenedUrl = new ShortenedUrl();
-                shortenedUrl.setId(resultSet.getInt("id"));
-                shortenedUrl.setSlug(resultSet.getString("slug"));
-                shortenedUrl.setLongUrl(resultSet.getString("long_url"));
-                shortenedUrl.setUserId(resultSet.getInt("user_id"));
-                shortenedUrls.add(shortenedUrl);
+                // ShortenedUrl shortenedUrl = new ShortenedUrl();
+                // shortenedUrl.setId(resultSet.getInt("id"));
+                // shortenedUrl.setSlug(resultSet.getString("slug"));
+                // shortenedUrl.setLongUrl(resultSet.getString("long_url"));
+                // shortenedUrl.setUserId(resultSet.getInt("user_id"));
+                // shortenedUrls.add(shortenedUrl);
+
+                Map<String, String> idData = new HashMap<>();
+                idData.put("id", resultSet.getString("id"));
+                idData.put("slug", resultSet.getString("slug"));
+                idData.put("long_url", resultSet.getString("long_url"));
+                idData.put("user_id", resultSet.getString("user_id"));
+
+                shortenedUrls.add(idData);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

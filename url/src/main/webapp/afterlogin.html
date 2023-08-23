@@ -32,6 +32,16 @@
       margin: 10px 10px 0;
     }
 
+    a:link{
+      text-decoration: none;
+      color: #fff;
+    }
+
+    a:visited{
+      text-decoration: none;
+      color: #fff;
+    }
+
     button:hover {
       background-color: #0056b3;
     }
@@ -41,11 +51,11 @@
 <body>
   <!-- direct to shorten service with a button -->
   <div>
-    <h3>Hi ${email}</h3>
+    <h3 id="email">Hi ${email}</h3>
   </div>
   <div>
-    <button><a href="http://localhost:8080/url/shorten">Shorten Service </a></button>
-    <button><a href="http://localhost:8080/url/shorten">DashBoard </a></button>
+    <a href="http://localhost:8080/url/shorten"><button>Shorten Service </button></a>
+    <a href="http://localhost:8080/url/dashBoard?email=${email}"><button>DashBoard </button></a>
   </div>
 
 </body>
