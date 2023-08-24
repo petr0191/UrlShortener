@@ -10,7 +10,6 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            flex-direction: column;
             align-items: center;
             height: 100vh;
         }
@@ -56,17 +55,43 @@
             margin-top: 10px;
             font-size: 14px;
         }
+        .copied-message {
+	        background-color: #5cb85c;
+	        color: #fff;
+	        padding: 10px;
+	        border-radius: 5px;
+	        position: fixed;
+	        bottom: 20px;
+	        left: 50%;
+	        transform: translateX(-50%);
+	        z-index: 9999;
+	    }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>URL Shortener</h1>
-        <form method="post" action="shorten">
-            <label for="original-url">Enter a long URL:</label>
-            <input type="url" id="original-url" name="original-url" placeholder="https://www.example.com" required>
-            <button type="submit" formaction="">Shorten</button>
-        </form>
-        <p id="short-url"></p>
+        <p>Original URL: ${originalUrl}</p>
+        <p>Shortened URL: ${shortenedUrl}</p>
+        <button id="copy-button">Copy to Clipboard</button>
+        <script>
+            document.getElementById('copy-button').addEventListener('click', function() {
+                var textArea = document.createElement('textarea');
+                textArea.value = '${shortenedUrl}';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                var copiedMessage = document.createElement('p');
+                copiedMessage.classList.add('copied-message');
+                copiedMessage.textContent = 'URL copied to clipboard!';
+                document.body.appendChild(copiedMessage);
+                setTimeout(function() {
+		            document.body.removeChild(copiedMessage);
+		        }, 3000);
+            });
+        </script>
     </div>
 </body>
 </html>
