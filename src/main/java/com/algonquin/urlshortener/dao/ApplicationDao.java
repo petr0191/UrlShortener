@@ -142,6 +142,7 @@ public class ApplicationDao {
 	}
 
 	public void insertUser(User user) {
+		createDbIfRequired();
 		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
 			Statement statement = connection.createStatement();
 			String useDatabaseQuery = "USE " + DB_NAME;
@@ -158,6 +159,7 @@ public class ApplicationDao {
 	}
 
 	public User getUserByEmail(String email) {
+		createDbIfRequired();
 		User user = null;
 
 		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
@@ -185,6 +187,7 @@ public class ApplicationDao {
 	}
 
 	public User getUserSignIn(String email, String password) {
+		createDbIfRequired();
 		User user = null;
 
 		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD)) {
