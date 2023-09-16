@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.algonquin.urlshortener.dao.ApplicationDao;
+import com.algonquin.urlshortener.dao.UrlShorternerDao;
 
 
 public class dashBoard {
@@ -15,7 +15,7 @@ public class dashBoard {
 
     // retrieve the data from the database according to the email
     // create a database object
-    ApplicationDao db = new ApplicationDao();
+    UrlShorternerDao db = new UrlShorternerDao();
 
     List<Map<String, String>> shortenedUrls = new ArrayList<>();
 

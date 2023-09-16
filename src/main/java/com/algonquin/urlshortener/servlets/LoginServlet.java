@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.algonquin.urlshortener.beans.User;
-import com.algonquin.urlshortener.dao.ApplicationDao;
+import com.algonquin.urlshortener.dao.UserDao;
 
 /**
  * Servlet implementation class ShortenServlet
@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ApplicationDao dao = new ApplicationDao();
+		UserDao dao = new UserDao();
 
 		String loginButton = request.getParameter("login");
 		String signupButton = request.getParameter("signup");
