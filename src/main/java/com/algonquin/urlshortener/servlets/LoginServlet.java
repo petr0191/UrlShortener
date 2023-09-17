@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.algonquin.urlshortener.beans.User;
 import com.algonquin.urlshortener.dao.UserDao;
+import com.algonquin.urlshortener.services.UserService;
 
 /**
  * Servlet implementation class ShortenServlet
@@ -55,7 +56,6 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		UserDao dao = new UserDao();
 
 		String loginButton = request.getParameter("login");
 		String signupButton = request.getParameter("signup");
@@ -64,7 +64,7 @@ public class LoginServlet extends HttpServlet {
 			String useremail = request.getParameter("signinemail");
 			String userpassword = request.getParameter("signinpassword");
 			
-			User signin = dao.getUserSignIn(useremail, userpassword);
+			User signin = UserService.loginUser(useremail, userpassword);
 
 			if (signin != null) {
 				// Create session to pass on user
@@ -94,12 +94,9 @@ public class LoginServlet extends HttpServlet {
 			    }
 			}
 		} else if (signupButton != null) {
-
 			String newuseremail = request.getParameter("signupemail");
 			String newuserpassword = request.getParameter("signuppassword");
-			User signup = new User(newuseremail, newuserpassword);
-			dao.insertUser(signup);
-			
+			UserService.insertUser(newuseremail, newuserpassword);	
 			doGet(request, response);
 		}
 	}
