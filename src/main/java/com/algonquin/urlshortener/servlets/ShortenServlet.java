@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -93,26 +92,24 @@ public class ShortenServlet extends HttpServlet {
     }
 
     private void generateDashboardContent(PrintWriter out, String email, List<Map<String, String>> shortenedUrls) {
-    	   System.out.println("email: " + email);
-   	    
-    	    out.print("<div style=\"display: flex; justify-content: center;\">");
-    	    out.print("<h2 id=\"email\">" + email + "</h2>");
-    	    out.print("<h2 style=\"margin-left: 10px;\">Dashboard</h2>");
-    	    out.print("</div>");
-    	    out.println("<table border='1' style=\"display: flex; justify-content: center;\">");
-    	    out.println("<tr><th>ID</th><th>Slug</th><th>Long URL</th></tr>");
+    	out.print("<div class=\"container\">");
+        out.print("<h2>Previous Links</h2>");
+        out.print("</div>");
+        out.println("<table border='1' style=\"display: flex; justify-content: center;\">");
+        out.println("<tr><th>Slug</th><th>Long URL</th><th>Times Used</th><th></th></tr>");
 
-    	    for (Map<String, String> urlData : shortenedUrls) {
-    	      out.println("<tr>");
-    	      out.println("<td>" + urlData.get("id") + "</td>");
-    	      out.println("<td>" + urlData.get("slug") + "</td>");
-    	      out.println("<td>" + urlData.get("long_url") + "</td>");
-    	      out.println("</tr>");
-    	    }
+        for (Map<String, String> urlData : shortenedUrls) {
+          out.println("<tr>");
+          out.println("<td>" + urlData.get("slug") + "</td>");
+          out.println("<td>" + urlData.get("long_url") + "</td>");
+          out.println("<td>" + urlData.get("count") + "</td>");
+          out.println("<td><a href=\"Details\">More..</a>\n</td>");
+          out.println("</tr>");
+        }
 
-    	    
-    	    out.println("</table>");
-    	    out.println("</body>");
-    	    out.println("</html>");
+        
+        out.println("</table>");
+        out.println("</body>");
+        out.println("</html>");
     }
 }

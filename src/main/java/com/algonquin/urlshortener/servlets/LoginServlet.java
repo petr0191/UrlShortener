@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.algonquin.urlshortener.beans.User;
-import com.algonquin.urlshortener.dao.UserDao;
 import com.algonquin.urlshortener.services.UserService;
 
 /**
