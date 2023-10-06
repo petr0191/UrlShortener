@@ -1,10 +1,7 @@
 package com.algonquin.urlshortener.servlets;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,17 +33,8 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-
-		try (InputStream htmlStream = getServletContext().getResourceAsStream("/login.html");
-				BufferedReader reader = new BufferedReader(new InputStreamReader(htmlStream))) {
-
-			String line;
-			while ((line = reader.readLine()) != null) {
-				response.getWriter().write(line);
-			}
-		}
+	    RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+	    dispatcher.forward(request, response);
 	}
 
 	/**
@@ -55,7 +43,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		System.out.print("Login posted!");
 		String loginButton = request.getParameter("login");
 		String signupButton = request.getParameter("signup");
 
@@ -74,23 +62,10 @@ public class LoginServlet extends HttpServlet {
 		        response.sendRedirect("shorten");
 			} else {
 				// Unsuccessful login, display an error message
-			    response.setContentType("text/html");
-			    response.setCharacterEncoding("UTF-8");
-			    
-			    try (InputStream htmlStream = getServletContext().getResourceAsStream("/login.html");
-			         BufferedReader reader = new BufferedReader(new InputStreamReader(htmlStream))) {
-
-			        String line;
-			        while ((line = reader.readLine()) != null) {
-			            // Append an error message to the login form
-			            if (line.contains("<form method=\"post\" action=\"signin\">")) {
-			                response.getWriter().write(line);
-			                response.getWriter().write("<p style=\"color: red;\">Invalid email or password.</p>");
-			            } else {
-			                response.getWriter().write(line);
-			            }
-			        }
-			    }
+	            // Unsuccessful login, display an error message
+	            request.setAttribute("errorMessage", "Invalid email or password.");
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+	            dispatcher.forward(request, response);
 			}
 		} else if (signupButton != null) {
 			String newuseremail = request.getParameter("signupemail");

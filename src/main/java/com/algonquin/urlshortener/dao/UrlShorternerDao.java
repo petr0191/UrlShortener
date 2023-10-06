@@ -20,9 +20,8 @@ public class UrlShorternerDao {
 	private static final String insertQuery = "INSERT INTO short_urls (slug, long_url, user_id) VALUES (?, ?, ?)";
 	private static final String slugSelectQuery = "SELECT * FROM short_urls WHERE slug = ?";
 	private static final String shortUrlSelectQuery = "SELECT short_urls.id, short_urls.slug, short_urls.long_url, count(short_url_clicks.ID) FROM short_urls "
-			+ "JOIN short_url_clicks ON short_url_clicks.short_url_id = short_urls.id "
-			+ "WHERE user_id = ? "
-			+ "GROUP BY short_urls.id;";
+			+ "LEFT JOIN short_url_clicks ON short_url_clicks.short_url_id = short_urls.id "
+			+ "WHERE user_id = ? GROUP BY short_urls.id ORDER BY short_urls.id";
 	private static final String clickInsertQuery = "INSERT INTO short_url_clicks (short_url_id) VALUES (?)";
 
 	public void insertShortenedUrl(ShortenedUrl shortenedUrl) {
@@ -82,6 +81,7 @@ public class UrlShorternerDao {
 			PreparedStatement preparedStatement = connection.prepareStatement(shortUrlSelectQuery);
 			preparedStatement.setInt(1, userId);
 
+			System.out.println(shortUrlSelectQuery);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 
