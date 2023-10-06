@@ -5,7 +5,8 @@ public class ShortenedUrl {
     private String slug;
     private String longUrl;
     private int userId;
-
+    private long useCount;
+    
     public int getId() {
         return id;
     }
@@ -37,4 +38,12 @@ public class ShortenedUrl {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+	public long getUseCount() {
+		return useCount;
+	}
+
+	public void setUseCount(long useCount) {
+		this.useCount = useCount;
+	}
 }

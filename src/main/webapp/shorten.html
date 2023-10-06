@@ -8,23 +8,21 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
         }
 	    .container {
 	        background-color: #fff;
-	        padding: 20px;
 	        border-radius: 5px;
 	        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	        text-align: center;
 	        min-width: 600px; 
 	        max-width: 1000px;
-	        margin: 0 auto; 
+	        min-height: 120px; 
+	        margin: 0 auto;
+	        display: flex;
+            justify-content: center;
 	    }
         h1 {
+			padding-top: 50px;
             margin-top: 0;
         }
         label {
@@ -32,11 +30,12 @@
             display: block;
             margin-bottom: 5px;
         }
-        input[type="url"] {
-            width: 100%;
+        #original-url {
+            width: 400px;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 3px;
+            display: block;
         }
         button {
             display: block;
@@ -56,17 +55,30 @@
             margin-top: 10px;
             font-size: 14px;
         }
+        table{
+	        background-color: #fff;
+	        border-radius: 5px;
+	        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	        text-align: center;
+	        min-width: 600px; 
+	        max-width: 1000px;
+	        min-height: 120px; 
+	        margin: 0 auto;
+	        display: flex;
+            justify-content: center;
+	    }
+        
     </style>
 </head>
 <body>
     <div class="container">
         <h1>URL Shortener</h1>
+    </div>
+    <div class="container">
         <form method="post" action="shorten">
             <label for="original-url">Enter a long URL:</label>
             <input type="url" id="original-url" name="original-url" placeholder="https://www.example.com" required>
-            <button type="submit" formaction="">Shorten</button>
+            <button type="submit" formaction="" name="shorten">Shorten</button>
         </form>
         <p id="short-url"></p>
     </div>
-</body>
-</html>

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.algonquin.urlshortener.dao.ApplicationDao;
+import com.algonquin.urlshortener.dao.UrlShorternerDao;
 
 
 public class dashBoard {
@@ -15,16 +15,15 @@ public class dashBoard {
 
     // retrieve the data from the database according to the email
     // create a database object
-    ApplicationDao db = new ApplicationDao();
+    UrlShorternerDao db = new UrlShorternerDao();
 
     List<Map<String, String>> shortenedUrls = new ArrayList<>();
 
     shortenedUrls = db.getShortenedUrlsByUserId(userid);
 
     
-    out.print("<div style=\"display: flex; justify-content: center;\">");
-    out.print("<h2 id=\"email\">" + email + "</h2>");
-    out.print("<h2 style=\"margin-left: 10px;\">Dashboard</h2>");
+    out.print("<div class=\"container\">");
+    out.print("<h2>Previous Links</h2>");
     out.print("</div>");
     out.println("<table border='1' style=\"display: flex; justify-content: center;\">");
     out.println("<tr><th>ID</th><th>Slug</th><th>Long URL</th></tr>");
